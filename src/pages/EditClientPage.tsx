@@ -15,23 +15,28 @@ export default function EditClientPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const clientId = Number(id);
-    if (!Number.isInteger(clientId) || clientId <= 0) {
-      setError('El identificador del cliente no es válido.');
-      setLoading(false);
-      return;
-    }
+    const loadClient = async () => {
+      const clientId = Number(id);
+      if (!Number.isInteger(clientId) || clientId <= 0) {
+        setError('El identificador del cliente no es válido.');
+        setLoading(false);
+        return;
+      }
 
-    ClientsService.getClient(clientId)
-      .then(setClient)
-      .catch((loadError: unknown) => {
+      try {
+        setClient(await ClientsService.getClient(clientId));
+      } catch (loadError) {
         setError(
           loadError instanceof Error
             ? loadError.message
             : 'No se pudo cargar el cliente.',
         );
-      })
-      .finally(() => setLoading(false));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void loadClient();
   }, [id]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -64,7 +69,9 @@ export default function EditClientPage() {
       {error && <div className="alert alert-danger">{error}</div>}
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="name" className="form-label">Nombre</label>
+          <label htmlFor="name" className="form-label">
+            Nombre
+          </label>
           <input
             id="name"
             className="form-control"
@@ -76,7 +83,9 @@ export default function EditClientPage() {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="email" className="form-label">Email</label>
+          <label htmlFor="email" className="form-label">
+            Email
+          </label>
           <input
             id="email"
             type="email"
@@ -89,7 +98,9 @@ export default function EditClientPage() {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="phone" className="form-label">Teléfono</label>
+          <label htmlFor="phone" className="form-label">
+            Teléfono
+          </label>
           <input
             id="phone"
             className="form-control"

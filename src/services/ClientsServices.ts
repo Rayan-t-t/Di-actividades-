@@ -23,7 +23,14 @@ export class ClientsService {
         }
     }
     static async updateClient(id: number,client: Client) {
-        const { error } = await supabase.from('clients').update(client).eq('id', id);
+        const { error } = await supabase
+            .from('clients')
+            .update({
+                name: client.name,
+                email: client.email,
+                phone: client.phone,
+            })
+            .eq('id', id);
         if (error) {
             throw error;
         }

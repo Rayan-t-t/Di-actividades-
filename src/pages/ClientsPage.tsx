@@ -45,7 +45,7 @@ export default function ClientsPage() {
     <div className="container mt-4">
       <h2>Clientes</h2>
       {error && <div className="alert alert-danger">{error}</div>}
-      <Link to="/new-client" className="btn btn-primary mb-3">
+      <Link to="/addclient" className="btn btn-primary mb-3">
         Nuevo Cliente
       </Link>
       <table className="table table-bordered">
@@ -67,16 +67,23 @@ export default function ClientsPage() {
               <td>{client.phone}</td>
               <td>
                 <div className="d-flex gap-2">
-                  <Link
-                    to={`/edit-client/${client.id}`}
-                    className="btn btn-warning btn-sm"
-                  >
-                    Editar
-                  </Link>
+                  {client.id !== undefined && (
+                    <Link
+                      to={`/editclient/${client.id}`}
+                      className="btn btn-warning btn-sm"
+                    >
+                      Editar
+                    </Link>
+                  )}
                   <button
                     type="button"
                     className="btn btn-danger btn-sm"
-                    onClick={() => client.id !== undefined && deleteClient(client.id)}
+                    disabled={client.id === undefined}
+                    onClick={() => {
+                      if (client.id !== undefined) {
+                        void deleteClient(client.id);
+                      }
+                    }}
                   >
                     Eliminar
                   </button>

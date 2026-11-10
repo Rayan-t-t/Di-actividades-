@@ -38,6 +38,7 @@ import './theme/variables.css';
 
 /* Bootstrap */
 import 'bootstrap/dist/css/bootstrap.min.css';
+import NewClientPage from './pages/NewClientPage';
 
 
 setupIonicReact();
@@ -49,7 +50,8 @@ const App: React.FC = () => (
         <Route path="/home" element={<Home />} />
         <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="/clients" element={<ClientsPage />} />
-        <Route path="/edit-client/:id" element={<EditClientPage />} />
+        <Route path="/addclient" element={<NewClientPage/>} />
+        <Route path="/editclient/:id" element={<EditClientPage />} />
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
